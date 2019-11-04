@@ -4,6 +4,8 @@ const apiKey = "369756fcf0f7ba8e9e0e693bc2c5e3f1"
 const request = require('request')
 const City = require('../models/City')
 
+
+
 router.get('/city/:cityName', function (req, res) {
     let city = req.params.cityName
     request(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`, function (err, response) {
@@ -37,28 +39,37 @@ router.get('/cities', function (req, res) {
 })
 
 router.post('/city', function (req, res) {
-    let city_id = req.body.city_id
-    let name = req.body.name
-    let condition = req.body.condition
-    let tempCelsius = req.body.temp
-    let icon = req.body.conditionPic
+    let cityId = req.body.city_id
+    City.find({city_id: cityId}, function (err, city) {
+        if (city.length === 1) {
+            return
+        } else {
 
-    let newCity = new City({
-        city_id: city_id,
-        name: name,
-        temperature: tempCelsius,
-        condition: condition,
-        conditionPic: icon
+            let city_id = cityId
+            let name = req.body.name
+            let condition = req.body.condition
+            let tempCelsius = req.body.temp
+            let icon = req.body.conditionPic
+
+            let newCity = new City({
+                city_id: city_id,
+                name: name,
+                temperature: tempCelsius,
+                condition: condition,
+                conditionPic: icon
+            })
+
+            newCity.save(function () {
+                res.end()
+            })
+        }
     })
 
-    newCity.save(function(){
-        res.end()
-    })
 })
 
-router.delete('/city/:cityId', function(req, res){
+router.delete('/city/:cityId', function (req, res) {
     let cityId = req.params.cityId
-    City.deleteOne({id: cityId},function(err,city){
+    City.deleteOne({ city_id: cityId }, function (err, city) {
         console.log(city)
         res.end()
     })

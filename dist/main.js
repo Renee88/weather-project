@@ -20,12 +20,12 @@ $("#search").on("click", handleSearch)
 
 $("#cities").on("click",".save",function(){
     let city = $(this).siblings(".name").text()
-    console.log(city)
     tempManager.saveCity(city)
 })
 
 $("#cities").on("click",".delete",function(){
     let cityId = $(this).siblings(".name").data("id")
     tempManager.removeCity(cityId)
+    let cities = tempManager.cityData
     render.renderData(cities)
 })
