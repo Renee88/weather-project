@@ -42,15 +42,16 @@ class TempManager {
     _checkId(newCity) {
         let cities = this.cityData
         for (let city of cities) {
-            if (city._id === newCity._id) {
+            if (city.city_id === newCity.city_id) {
                 return true
             }
         }
     }
 
     saveCity(cityName) {
-        let city = this._findCity(cityName)
-        $.post(`/city`, city, function (err, res) {
+        let newCity = this._findCity(cityName)
+        this._checkId(newCity) ? null
+        : $.post(`/city`, city, function (err, res) {
             console.log(`${city.name} was added to DB`)
             })
     }
