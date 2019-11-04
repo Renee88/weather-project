@@ -5,24 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Weather Forcast</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css?family=McLaren|Yeon+Sung&display=swap" rel="stylesheet">
 </head>
 <body>
-    <input id = "city-input" type = "text" placeholder="Enter a City name">
-    <button id = "search">Get Forcast</button>
-    
+<div id = "main-container">
+    <div id = "input-container">
+        <input id = "city-input" type = "text" placeholder="Enter a City name">
+        <button id = "search">Get Forcast</button>
+    </div>
 
 
     <div id = cities></div>
 
+</div>
     <script id = "city-template" type="text/x-handlebars-template">
         {{#each cities}}
         <div class = "city">
-            <div data-id = {{city_id}} class = "name">{{name}}</div>
-            <div class = "temp">{{temperature}}&#8451</div>
-            <div class = "condition">{{condition}}</div>
-            <div class = "icon"><img src = {{conditionPic}}></div>
-            <button class = "save">Save</button>
-            <button class = "delete">Remove</button>
+            <div data-id = {{city_id}} class = "name details">{{name}}</div>
+            <div class = "temp details">{{temperature}}&#8451</div>
+            <div class = "condition details">{{condition}}</div>
+            <div class = "icon details"><img src = {{conditionPic}}></div>
+            <button class = "save details prefer">Save</button>
+            <button class = "delete details prefer">Remove</button>
         </div>
         {{/each}}
     </script>

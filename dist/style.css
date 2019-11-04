@@ -1,0 +1,65 @@
+body{
+    background-color: #7678ED;
+    margin: 0px;
+}
+button{
+    width: fit-content;
+    height: fit-content;
+    border-radius: 5px;
+    background-color: #3D348B;
+    color: white;
+}
+
+#main-container{
+    display: grid;
+}
+
+#city-input{
+    padding: 5px;
+    margin: 10px;
+    width: 200px;
+    border-radius: 5px;
+    font-family: 'McLaren', cursive;
+}
+
+#search{
+    padding: 5px;
+    margin: 5px;
+    font-weight: bold;
+    font-family: 'McLaren', cursive;
+}
+
+#input-container{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    justify-self: center;
+    align-items: center;
+}
+
+#cities{
+    display:grid;
+    grid-template-columns: 1fr
+}
+
+.city{
+    display: grid;
+    background-color: #3D348B;
+    padding: 5px;
+    height: fit-content;
+    grid-template-columns: 2fr 1fr 1fr 2fr 1fr 1fr ;
+    align-items: center;
+    border-radius: 10px;
+    margin: 10px;
+    justify-items: center;
+}
+
+.details{
+    color: white;
+    font-family: 'Yeon Sung', cursive;
+    margin: 3px ;
+}
+
+img{
+    height: 70px;
+    width: 70px;
+}
