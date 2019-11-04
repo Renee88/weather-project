@@ -6,8 +6,8 @@ const City = require('../models/City')
 
 router.get('/city/:cityName', function (req, res) {
     let city = req.params.cityName
-    
-    request(`https://api.openweathermap.org/data/2.5/weather?q=${cityForAPI}&units=metric&APPID=${apiKey}`, function (err, response) {
+    request(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`, function (err, response) {
+        console.log(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`)
 
         let weatherInCity = JSON.parse(response.body)
         let name = weatherInCity.name
@@ -29,7 +29,7 @@ router.get('/city/:cityName', function (req, res) {
 })
 
 router.get('/cities', function (req, res) {
-    cities = City.find({}, function (err, cities) {
+    const cities = City.find({}, function (err, cities) {
         res.send(cities)
     })
 })
@@ -54,8 +54,8 @@ router.post('/city', function (req, res) {
 })
 
 router.delete('/city/:cityName', function(req, res){
-    let city = req.params.cityName
-    City.deleteOne({name: city},function(err,city){
+    let cityName = req.params.cityName
+    City.deleteOne({name: cityName},function(err,city){
         console.log(city)
         res.end()
     })

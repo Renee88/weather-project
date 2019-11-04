@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather Forcast</title>
+</head>
+<body>
+    <input type = "text" placeholder="Enter a City name">
+    <button id = "send">Get Forcast</button>
+    <button id = "save">Save</button>
+
+    <div id = cities></div>
+
+    <script id = "city-template" type="text/x-handlebars-template">
+        {{#each cities}}
+        <div class = "city">
+            <div class = "name">{{name}}</div>
+            <div class = "temp">{{temperature}}</div>
+            <div class = "condition">{{condition}}</div>
+            <div class = "icon"><img src = {{conditionPic}}></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script src = "/handlebars/dist/handlebars.js"></script>
+    <script src = "/jquery/dist/jquery.js"></script>
+    <script src = "TempManager.js"></script>
+    <script src = "Renderer.js"></script>
+    <script src = "main.js"></script>
+</body>
+</html>
