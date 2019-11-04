@@ -8,7 +8,7 @@ const loadPage = function(){
 }
 
 const handleSearch = async function(){
-    let inputCity = $("input").val()
+    let inputCity = $("#city-input").val()
     await tempManager.getCityData(inputCity)
     let cities = tempManager.cityData
     render.renderData(cities)
@@ -18,13 +18,14 @@ loadPage()
 
 $("#search").on("click", handleSearch)
 
-$("#save").on("click",function(){
-    let inputCity = $("input").val()
-    tempManager.saveCity(inputCity)
+$("#cities").on("click",".save",function(){
+    let city = $(this).siblings(".name").text()
+    console.log(city)
+    tempManager.saveCity(city)
 })
 
 $("#cities").on("click",".delete",function(){
-    let city = $(this).siblings(".name").text()
-    tempManager.removeCity(city)
+    let cityId = $(this).siblings(".name").data("id")
+    tempManager.removeCity(cityId)
     render.renderData(cities)
 })

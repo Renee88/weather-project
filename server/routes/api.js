@@ -14,8 +14,10 @@ router.get('/city/:cityName', function (req, res) {
         let condition = weatherInCity.weather[0].main
         let tempCelsius = weatherInCity.main.temp
         let icon = weatherInCity.weather[0].icon
+        let id = weatherInCity.id
 
         const chosenCity = new City({
+            city_id: id,
             name: name,
             temperature: tempCelsius,
             condition: condition,
@@ -35,13 +37,14 @@ router.get('/cities', function (req, res) {
 })
 
 router.post('/city', function (req, res) {
-
+    let city_id = req.body.city_id
     let name = req.body.name
     let condition = req.body.condition
     let tempCelsius = req.body.temp
     let icon = req.body.conditionPic
 
     let newCity = new City({
+        city_id: city_id,
         name: name,
         temperature: tempCelsius,
         condition: condition,
@@ -53,9 +56,9 @@ router.post('/city', function (req, res) {
     })
 })
 
-router.delete('/city/:cityName', function(req, res){
-    let cityName = req.params.cityName
-    City.deleteOne({name: cityName},function(err,city){
+router.delete('/city/:cityId', function(req, res){
+    let cityId = req.params.cityId
+    City.deleteOne({id: cityId},function(err,city){
         console.log(city)
         res.end()
     })

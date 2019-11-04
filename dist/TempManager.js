@@ -19,7 +19,7 @@ class TempManager {
 
 
     getDataFromDB() {
-        $.get('/cities', (err, data) => {
+        $.get('/cities', (data) => {
             console.log(data)
         })
     }
@@ -51,17 +51,18 @@ class TempManager {
     saveCity(cityName) {
         let city = this._findCity(cityName)
         $.post(`/city`, city, function (err, res) {
+            console.log(`${city.name} was added to DB`)
             })
     }
 
 
 
-    removeCity(cityName) {
+    removeCity(cityId) {
         $.ajax({
             method: "DELETE",
-            url: `/city/${cityName}`,
+            url: `/city/${cityId}`,
             success: function (err, res) {
-                console.log(`${cityName} was succesfully removed`)
+                console.log(`${cityId} was succesfully removed`)
             },
             error: function (err) {
                 console.log('Delete request did not succeed')

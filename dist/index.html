@@ -9,7 +9,7 @@
 <body>
     <input id = "city-input" type = "text" placeholder="Enter a City name">
     <button id = "search">Get Forcast</button>
-    <button id = "save">Save</button>
+    
 
 
     <div id = cities></div>
@@ -17,10 +17,11 @@
     <script id = "city-template" type="text/x-handlebars-template">
         {{#each cities}}
         <div class = "city">
-            <div class = "name">{{name}}</div>
+            <div data-id = {{city_id}} class = "name">{{name}}</div>
             <div class = "temp">{{temperature}}&#8451</div>
             <div class = "condition">{{condition}}</div>
             <div class = "icon"><img src = {{conditionPic}}></div>
+            <button class = "save">Save</button>
             <button class = "delete">Remove</button>
         </div>
         {{/each}}
