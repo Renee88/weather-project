@@ -8,7 +8,7 @@
 </head>
 <body>
     <input id = "city-input" type = "text" placeholder="Enter a City name">
-    <button id = "send">Get Forcast</button>
+    <button id = "search">Get Forcast</button>
     <button id = "save">Save</button>
 
 
@@ -18,7 +18,7 @@
         {{#each cities}}
         <div class = "city">
             <div class = "name">{{name}}</div>
-            <div class = "temp">{{temperature}}</div>
+            <div class = "temp">{{temperature}}&#8451</div>
             <div class = "condition">{{condition}}</div>
             <div class = "icon"><img src = {{conditionPic}}></div>
             <button class = "delete">Remove</button>
@@ -26,6 +26,7 @@
         {{/each}}
     </script>
 
+  
     <script src = "/handlebars/dist/handlebars.js"></script>
     <script src = "/jquery/dist/jquery.js"></script>
     <script src = "TempManager.js"></script>

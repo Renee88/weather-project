@@ -7,18 +7,16 @@ const loadPage = function(){
     render.renderData(cities)
 }
 
-const handleSearch = function(){
-    $("#city-input").val()
-}
-
-loadPage()
-
-$("#send").on("click", async function(){
+const handleSearch = async function(){
     let inputCity = $("input").val()
     await tempManager.getCityData(inputCity)
     let cities = tempManager.cityData
     render.renderData(cities)
-})
+}
+
+loadPage()
+
+$("#search").on("click", handleSearch)
 
 $("#save").on("click",function(){
     let inputCity = $("input").val()
