@@ -50,19 +50,18 @@ class TempManager {
 
     saveCity(cityName) {
         let city = this._findCity(cityName)
-        this._checkId(city) ? null
-            : $.post(`/city`, city, function (err, res) {
+        $.post(`/city`, city, function (err, res) {
             })
     }
 
 
 
-    removeCity(cityId) {
+    removeCity(cityName) {
         $.ajax({
             method: "DELETE",
-            url: `/city/${cityId}`,
+            url: `/city/${cityName}`,
             success: function (err, res) {
-                console.log(cityId)
+                console.log(`${cityName} was succesfully removed`)
             },
             error: function (err) {
                 console.log('Delete request did not succeed')
