@@ -23,12 +23,25 @@
         {{#each cities}}
         <div class = "city">
             <div data-id = {{city_id}} class = "name details">{{name}}</div>
+            {{#if temperature}}
             <div class = "temp details">{{temperature}}&#8451</div>
+            {{/if}}
+            {{#if condition}}
             <div class = "condition details">{{condition}}</div>
+            {{/if}}
+            {{#if conditionPic}}
             <div class = "icon details"><img src = {{conditionPic}}></div>
             <button class = "save details prefer">Save</button>
             <button class = "delete details prefer">Remove</button>
+            {{/if}}
+            
         </div>
+        {{/each}}
+    </script>
+
+    <script id = "not-found-template" type="text/x-handlebars-template">
+        {{#each cities}}
+        <div data-id = {{city_id}} class = "name details">{{name}}</div>
         {{/each}}
     </script>
 

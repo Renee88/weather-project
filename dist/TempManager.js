@@ -17,17 +17,14 @@ class TempManager {
         return string
     }
 
-
-    getDataFromDB() {
-        $.get('/cities', (data) => {
-            console.log(data)
-        })
-    }
-
-    async getCityData(cityName) {
-        const cityForAPI = this._stringforAPI(cityName)
-        const data = await $.get(`/city/${cityForAPI}`)
-        this.cityData.push(data)
+    _checkCity(cityId) {
+        let cities = this.cityData
+        for (let city of cities) {
+            if (city.city_id === cityId) {
+                return true
+            }
+        }
+        return false
     }
 
     _findCity(cityName) {
@@ -39,7 +36,18 @@ class TempManager {
         }
     }
 
+    getDataFromDB() {
+        $.get('/cities', (data) => {
+            console.log(data)
+        })
+    }
 
+    async getCityData(cityName) {
+        const cityForAPI = this._stringforAPI(cityName)
+        let data = await $.get(`/city/${cityForAPI}`)
+        this._checkCity(data.city_id) ? null
+        : this.cityData.push(data)
+    }
 
     saveCity(cityName) {
         let newCity = this._findCity(cityName)
