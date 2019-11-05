@@ -4,7 +4,6 @@ const render = new Renderer()
 const loadPage = async function(){
     await tempManager.getDataFromDB()
     let cities = tempManager.favourites
-    
     render.renderData(cities)
 }
 
@@ -16,7 +15,7 @@ const handleSearch = async function(){
 }
 
 
-loadPage()
+
 
 $("#search").on("click", handleSearch)
 
@@ -35,7 +34,7 @@ $("#cities").on("click",".fas",function(){
 })
 
 $("#favs").on("click",function(){
-    $("#cities").empty()
-    let cities = tempManager.favourites
-    render.renderData(cities)
+    loadPage()
+    $(this).text('Hide favourites')
 })
+

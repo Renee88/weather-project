@@ -15,7 +15,8 @@
         <input id = "city-input" type = "text" placeholder="Enter a City name">
         <button id = "search">Get Forcast</button>
     </div>
-    <button id = "favs">Show favourites</button>
+    
+    <button id = "favs" class = "unclicked">Show favourites</button>
 
 
     <div id = cities></div>
@@ -33,10 +34,13 @@
             {{/if}}
             {{#if conditionPic}}
             <div class = "icon details"><img src = {{conditionPic}}></div>
-            <i class="far fa-heart"></i>
             {{/if}}
 
-            
+            {{#if fav}}
+            <i class="fas fa-heart"></i>
+            {{else}}
+            <i class="far fa-heart"></i>
+            {{/if}}
         </div>
         {{/each}}
     </script>

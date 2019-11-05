@@ -32,6 +32,16 @@ class TempManager {
         return false
     }
 
+    _checkFavCity(cityId) {
+        let cities = this.favourites
+        for (let city of cities) {
+            if (city.city_id === cityId) {
+                return true
+            }
+        }
+        return false
+    }
+
     _findCity(cityName) {
         let cities = this.cityData
         for (let city of cities) {
@@ -40,12 +50,17 @@ class TempManager {
             }
         }
     }
+    
+    
 
     async getDataFromDB() {
       await  $.get('/cities', (cities) => {
-            for (let city of cities) {
-                this.favourites.push(city)
-            }
+        for (let city of cities) {
+            let cityId = city.city_id
+            this._checkFavCity(cityId) ? null
+            :this.favourites.push(city)
+        }
+            
         })
     }
 

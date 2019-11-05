@@ -29,7 +29,7 @@ router.get('/city/:cityName', function (req, res) {
             temperature: tempCelsius,
             condition: condition,
             conditionPic: `http://openweathermap.org/img/wn/${icon}@2x.png`,
-            saved: false
+            fav: false
         })
 
         console.log(chosenCity)
@@ -56,6 +56,7 @@ router.post('/city', function (req, res) {
             let condition = req.body.condition
             let tempCelsius = req.body.temperature
             let icon = req.body.conditionPic
+            let fav = !req.body.fav
 
             let newCity = new City({
                 city_id: city_id,
@@ -63,6 +64,7 @@ router.post('/city', function (req, res) {
                 temperature: tempCelsius,
                 condition: condition,
                 conditionPic: icon,
+                fav: fav
             })
 
             newCity.save(function () {
