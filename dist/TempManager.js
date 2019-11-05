@@ -50,17 +50,35 @@ class TempManager {
             }
         }
     }
-    
-    
+
+    _findCityById(cityId){
+        let cities = this.cityData
+        for (let city of cities) {
+            if (city.city_id === cityId) {
+                return city
+            }
+        }
+    }
+
+    _findFavById(cityId){
+        let cities = this.favourites
+        for (let city of cities) {
+            if (city.city_id === cityId) {
+                return city
+            }
+        }
+    }
+
+
 
     async getDataFromDB() {
-      await  $.get('/cities', (cities) => {
-        for (let city of cities) {
-            let cityId = city.city_id
-            this._checkFavCity(cityId) ? null
-            :this.favourites.push(city)
-        }
-            
+        await $.get('/cities', (cities) => {
+            for (let city of cities) {
+                let cityId = city.city_id
+                this._checkFavCity(cityId) ? null
+                    : this.favourites.push(city)
+            }
+
         })
     }
 
@@ -68,12 +86,12 @@ class TempManager {
         const cityForAPI = this._stringforAPI(cityName)
         let data = await $.get(`/city/${cityForAPI}`)
         data.temperature = parseInt(data.temperature)
-        this._checkCity(data.city_id) ? null 
+        this._checkCity(data.city_id) ? null
             : this.cityData.push(data)
     }
 
-    saveCity(cityName) {
-        let newCity = this._findCity(cityName)
+    saveCity(cityId) {
+        let newCity = this._findCityById(cityId)
         this._addToFavourites(newCity)
         console.log(newCity)
         $.post(`/city`, newCity, function (err, res) {
@@ -98,8 +116,27 @@ class TempManager {
 
     }
 
+    async updateCity(cityId) {
+        let city = this._findFavById(cityId)
+        console.log(city)
+       await $.ajax({
+            method: "PUT",
+            data: {city_id: city.city_id},
+            url: '/city',
+            success: (updatedCity) => {
+                let cityId = this._findCity(updatedCity.city_id)
+                let cities = this.favourites
+                let counter = 0
+                for (let city of cities) {
+                    counter++
+                    if (city.city_id === cityId) {
+                        this.favourites.splice(counter, 1, city)
+                    }
+                }
+            }
 
-
+        })
+    }
 }
 
 

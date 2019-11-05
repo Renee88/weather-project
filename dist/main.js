@@ -1,13 +1,14 @@
 const tempManager = new TempManager()
 const render = new Renderer()
 
-const loadPage = async function(){
+const loadPage = async function () {
     await tempManager.getDataFromDB()
     let cities = tempManager.favourites
     render.renderData(cities)
+    $(".city").append("<button class=refresh>Refresh</button>")
 }
 
-const handleSearch = async function(){
+const handleSearch = async function () {
     let inputCity = $("input").val()
     await tempManager.getCityData(inputCity)
     let cities = tempManager.cityData
@@ -19,22 +20,38 @@ const handleSearch = async function(){
 
 $("#search").on("click", handleSearch)
 
-$("#cities").on("click",".far",function(){
-    let city = $(this).siblings(".name").text()
-    tempManager.saveCity(city)
-    $(this).attr("class","fas fa-heart")
-})
-
-$("#cities").on("click",".fas",function(){
+$("#cities").on("click", "#liked", function () {
     let cityId = $(this).siblings(".name").data("id")
+    console.log(cityId)
     tempManager.removeCity(cityId)
     let cities = tempManager.cityData
     render.renderData(cities)
-    $(this).append(`<i class="far fa-heart"></i>`)
+    $(this).append(`<i id="disliked" class="far fa-heart"></i>`)
 })
 
-$("#favs").on("click",function(){
-    loadPage()
-    $(this).text('Hide favourites')
+$("#cities").on("click", ".far", function () {
+    let cityId = $(this).siblings(".name").data("id")
+    console.log(cityId)
+    tempManager.saveCity(cityId)
+    $(this).attr("class", "fas fa-heart")
+})
+
+$("#cities").on("click", ".fas", function () {
+    let cityId = $(this).siblings(".name").data("id")
+    console.log(cityId)
+    tempManager.removeCity(cityId)
+    let cities = tempManager.cityData
+    render.renderData(cities)
+    $(this).attr("class", "far fa-heart")
+})
+
+$("#favs").on("click", async function () {
+    await loadPage()
+    $(this).text('Show favourites')
+})
+
+$("#cities").on("click", ".refresh", async function () {
+    let cityId = $(this).siblings(".name").data("id")
+    await tempManager.updateCity(cityId)
 })
 

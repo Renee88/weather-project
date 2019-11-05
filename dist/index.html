@@ -16,7 +16,7 @@
         <button id = "search">Get Forcast</button>
     </div>
     
-    <button id = "favs" class = "unclicked">Show favourites</button>
+    <button id = "favs">Show favourites</button>
 
 
     <div id = cities></div>
@@ -24,6 +24,7 @@
 </div>
     <script id = "city-template" type="text/x-handlebars-template">
         {{#each cities}}
+        {{#if name}}
         <div class = "city">
             <div data-id = {{city_id}} class = "name details">{{name}}</div>
             {{#if temperature}}
@@ -34,13 +35,11 @@
             {{/if}}
             {{#if conditionPic}}
             <div class = "icon details"><img src = {{conditionPic}}></div>
-            {{/if}}
-
-            {{#if fav}}
-            <i class="fas fa-heart"></i>
-            {{else}}
             <i class="far fa-heart"></i>
             {{/if}}
+        {{/if}}
+            
+            
         </div>
         {{/each}}
     </script>

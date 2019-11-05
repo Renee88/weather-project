@@ -12,14 +12,16 @@ router.get('/city/:cityName', function (req, res) {
 
         let weatherInCity = JSON.parse(response.body)
         let name = weatherInCity.name || weatherInCity.message
-        if(name === weatherInCity.message){
+        if (name === weatherInCity.message) {
             console.log(name)
-            res.send({name: name,
-            city_id: weatherInCity.cod })
+            res.send({
+                name: name,
+                city_id: weatherInCity.cod
+            })
             return
         }
-        let condition = weatherInCity.weather[0].main 
-        let tempCelsius = weatherInCity.main.temp 
+        let condition = weatherInCity.weather[0].main
+        let tempCelsius = weatherInCity.main.temp
         let icon = weatherInCity.weather[0].icon
         let id = weatherInCity.id
 
@@ -29,7 +31,6 @@ router.get('/city/:cityName', function (req, res) {
             temperature: tempCelsius,
             condition: condition,
             conditionPic: `http://openweathermap.org/img/wn/${icon}@2x.png`,
-            fav: false
         })
 
         console.log(chosenCity)
@@ -46,7 +47,7 @@ router.get('/cities', function (req, res) {
 
 router.post('/city', function (req, res) {
     let cityId = req.body.city_id
-    City.find({city_id: cityId}, function (err, city) {
+    City.find({ city_id: cityId }, function (err, city) {
         if (city.length === 1) {
             return
         } else {
@@ -64,7 +65,7 @@ router.post('/city', function (req, res) {
                 temperature: tempCelsius,
                 condition: condition,
                 conditionPic: icon,
-                fav: fav
+                fav: true
             })
 
             newCity.save(function () {
@@ -82,5 +83,33 @@ router.delete('/city/:cityId', function (req, res) {
         res.end()
     })
 })
+
+router.put('/city', function (req, res) {
+    let cityId = req.body.city_id
+    request(`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&units=metric&APPID=${apiKey}`, function (err, response) {
+        let weatherInCity = JSON.parse(response.body)
+
+        let city_id = cityId
+        let name = weatherInCity.name
+        let condition = weatherInCity.weather[0].description
+        let tempCelsius = weatherInCity.main.temp
+        let icon = weatherInCity.weather[0].icon
+
+        let updatedCity = new City({
+            city_id: city_id,
+            name: name,
+            temperature: tempCelsius,
+            condition: condition,
+            conditionPic: `http://openweathermap.org/img/wn/${icon}@2x.png`
+        })
+        
+            console.log(updatedCity)
+        
+            City.findOneAndUpdate({city_id: city_id },updatedCity,{useFindAndModify: false}, function (err, res) {
+        
+            })
+    })
+})
+
 
 module.exports = router 
