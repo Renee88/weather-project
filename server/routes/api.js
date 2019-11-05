@@ -28,7 +28,8 @@ router.get('/city/:cityName', function (req, res) {
             name: name,
             temperature: tempCelsius,
             condition: condition,
-            conditionPic: `http://openweathermap.org/img/wn/${icon}@2x.png`
+            conditionPic: `http://openweathermap.org/img/wn/${icon}@2x.png`,
+            saved: false
         })
 
         console.log(chosenCity)

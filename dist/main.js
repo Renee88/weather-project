@@ -19,14 +19,16 @@ loadPage()
 
 $("#search").on("click", handleSearch)
 
-$("#cities").on("click",".save",function(){
+$("#cities").on("click",".far",function(){
     let city = $(this).siblings(".name").text()
     tempManager.saveCity(city)
+    $(this).attr("class","fas fa-heart")
 })
 
-$("#cities").on("click",".delete",function(){
+$("#cities").on("click",".fas",function(){
     let cityId = $(this).siblings(".name").data("id")
     tempManager.removeCity(cityId)
     let cities = tempManager.cityData
     render.renderData(cities)
+    $(this).append(`<i class="far fa-heart"></i>`)
 })
