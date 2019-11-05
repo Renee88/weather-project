@@ -8,6 +8,10 @@ button{
     border-radius: 5px;
     background-color: #3D348B;
     color: white;
+    font-family: 'McLaren', cursive;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px;
 }
 
 #main-container{
@@ -22,12 +26,6 @@ button{
     font-family: 'McLaren', cursive;
 }
 
-#search{
-    padding: 5px;
-    margin: 5px;
-    font-weight: bold;
-    font-family: 'McLaren', cursive;
-}
 
 #input-container{
     display: grid;
@@ -59,6 +57,7 @@ button{
     margin: 3px ;
 }
 
+
 img{
     height: 70px;
     width: 70px;
@@ -67,4 +66,9 @@ img{
 i{
     color: #F7B801;
     font-size: 2em;
+}
+
+#favs{
+    display: grid;
+    justify-self: center;
 }

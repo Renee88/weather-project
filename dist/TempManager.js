@@ -1,7 +1,12 @@
 class TempManager {
     constructor() {
+        this.favourites = []
         this.cityData = []
 
+    }
+
+    _addToFavourites(city) {
+        this.favourites.push(city)
     }
 
     _stringforAPI(string) {
@@ -36,24 +41,29 @@ class TempManager {
         }
     }
 
-    getDataFromDB() {
-        $.get('/cities', (data) => {
-            console.log(data)
+    async getDataFromDB() {
+      await  $.get('/cities', (cities) => {
+            for (let city of cities) {
+                this.favourites.push(city)
+            }
         })
     }
 
     async getCityData(cityName) {
         const cityForAPI = this._stringforAPI(cityName)
         let data = await $.get(`/city/${cityForAPI}`)
-        this._checkCity(data.city_id) ? null
-        : this.cityData.push(data)
+        data.temperature = parseInt(data.temperature)
+        this._checkCity(data.city_id) ? null 
+            : this.cityData.push(data)
     }
 
     saveCity(cityName) {
         let newCity = this._findCity(cityName)
+        this._addToFavourites(newCity)
+        console.log(newCity)
         $.post(`/city`, newCity, function (err, res) {
             console.log(`${newCity.name} was added to DB`)
-            })
+        })
     }
 
 
@@ -72,6 +82,8 @@ class TempManager {
         })
 
     }
+
+
 
 }
 

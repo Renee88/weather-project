@@ -8,5 +8,6 @@ class Renderer {
         $("#cities").append(allCitiesHTML)
 
     }
+
 }
 

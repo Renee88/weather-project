@@ -1,9 +1,10 @@
 const tempManager = new TempManager()
 const render = new Renderer()
 
-const loadPage = function(){
-    tempManager.getDataFromDB()
-    let cities = tempManager.cityData
+const loadPage = async function(){
+    await tempManager.getDataFromDB()
+    let cities = tempManager.favourites
+    
     render.renderData(cities)
 }
 
@@ -31,4 +32,10 @@ $("#cities").on("click",".fas",function(){
     let cities = tempManager.cityData
     render.renderData(cities)
     $(this).append(`<i class="far fa-heart"></i>`)
+})
+
+$("#favs").on("click",function(){
+    $("#cities").empty()
+    let cities = tempManager.favourites
+    render.renderData(cities)
 })
