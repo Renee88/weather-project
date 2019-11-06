@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const apiKey = "369756fcf0f7ba8e9e0e693bc2c5e3f1"
 const request = require('request')
+const parseString = require('xml2js').parseString
 const City = require('../models/City')
 
 
