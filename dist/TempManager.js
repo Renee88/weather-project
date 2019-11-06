@@ -132,12 +132,12 @@ class TempManager {
                 let cities = this.favourites
                 let counter = 0
                 for (let city of cities) {
-                    counter++
                     if (city.city_id === cityId) {
                         let displayTemp = parseInt(city.temperature)
                         city.temperature = displayTemp
                         this.favourites.splice(counter, 1, city)
                     }
+                    counter++
                 }
             }
 
