@@ -90,23 +90,14 @@ router.put('/city', function (req, res) {
         let weatherInCity = JSON.parse(response.body)
 
         let city_id = cityId
-        let name = weatherInCity.name
         let condition = weatherInCity.weather[0].description
         let tempCelsius = weatherInCity.main.temp
         let icon = weatherInCity.weather[0].icon
-
-        let updatedCity = new City({
-            city_id: city_id,
-            name: name,
-            temperature: tempCelsius,
-            condition: condition,
-            conditionPic: `http://openweathermap.org/img/wn/${icon}@2x.png`
-        })
+        let conditionPic = `http://openweathermap.org/img/wn/${icon}@2x.png`
         
-            console.log(updatedCity)
         
-            City.findOneAndUpdate({city_id: city_id },updatedCity,{useFindAndModify: false}, function (err, res) {
-        
+            City.findOneAndUpdate({city_id: city_id },{condition: condition, temperature: tempCelsius, conditionPic: conditionPic},{useFindAndModify: false, new: true}, function (err,city) {
+                    console.log(city)
             })
     })
 })

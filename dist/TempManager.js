@@ -75,6 +75,8 @@ class TempManager {
         await $.get('/cities', (cities) => {
             for (let city of cities) {
                 let cityId = city.city_id
+                let displayTemp = parseInt(city.temperature)
+                city.temperature = displayTemp
                 this._checkFavCity(cityId) ? null
                     : this.favourites.push(city)
             }
@@ -89,6 +91,7 @@ class TempManager {
         this._checkCity(data.city_id) ? null
             : this.cityData.push(data)
     }
+
 
     saveCity(cityId) {
         let newCity = this._findCityById(cityId)
@@ -124,12 +127,15 @@ class TempManager {
             data: {city_id: city.city_id},
             url: '/city',
             success: (updatedCity) => {
-                let cityId = this._findCity(updatedCity.city_id)
+                let udpdatedCityId = updatedCity.city_id
+                let cityId = this._findCity(udpdatedCityId)
                 let cities = this.favourites
                 let counter = 0
                 for (let city of cities) {
                     counter++
                     if (city.city_id === cityId) {
+                        let displayTemp = parseInt(city.temperature)
+                        city.temperature = displayTemp
                         this.favourites.splice(counter, 1, city)
                     }
                 }

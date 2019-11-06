@@ -47,11 +47,14 @@ $("#cities").on("click", ".fas", function () {
 
 $("#favs").on("click", async function () {
     await loadPage()
-    $(this).text('Show favourites')
+    $(".city").find(".far").attr("class","fas fa-heart")
+    $(this).text('Hide favourites')
 })
 
 $("#cities").on("click", ".refresh", async function () {
     let cityId = $(this).siblings(".name").data("id")
     await tempManager.updateCity(cityId)
+    let cities = this.favourites
+    render.renderData(cities)
 })
 
