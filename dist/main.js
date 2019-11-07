@@ -9,10 +9,13 @@ const loadPage = async function () {
 }
 
 const handleSearch = async function () {
+    let Id = "404"
+    tempManager.removeNotFound(Id)
     let inputCity = $("input").val()
     await tempManager.getCityData(inputCity)
     let cities = tempManager.cityData
     render.renderData(cities)
+    $("#favs").text("Show favourites")
 }
 
 
@@ -40,7 +43,7 @@ $("#cities").on("click", ".fas", function () {
     let cityId = $(this).siblings(".name").data("id")
     console.log(cityId)
     tempManager.removeCity(cityId)
-    let cities = tempManager.cityData
+    let cities = tempManager.favourites
     render.renderData(cities)
     $(this).attr("class", "far fa-heart")
 })

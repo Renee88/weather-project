@@ -51,7 +51,7 @@ class TempManager {
         }
     }
 
-    _findCityById(cityId){
+    _findCityById(cityId) {
         let cities = this.cityData
         for (let city of cities) {
             if (city.city_id === cityId) {
@@ -60,7 +60,7 @@ class TempManager {
         }
     }
 
-    _findFavById(cityId){
+    _findFavById(cityId) {
         let cities = this.favourites
         for (let city of cities) {
             if (city.city_id === cityId) {
@@ -92,6 +92,18 @@ class TempManager {
             : this.cityData.push(data)
     }
 
+    removeNotFound(cityId) {
+        let counter = 0
+        let cities = this.cityData
+        for (let city of cities) {
+            if (city.city_id === cityId) {
+                this.cityData.splice(counter, 1)
+            }
+            counter++
+        }
+    }
+
+
 
     saveCity(cityId) {
         let newCity = this._findCityById(cityId)
@@ -105,6 +117,18 @@ class TempManager {
 
 
     removeCity(cityId) {
+
+        if (this._checkFavCity(cityId)) {
+            let counter = 0
+            let favCities = this.favourites
+            for (let city of favCities) {
+                if (city.city_id === cityId) {
+                    this.favourites.splice(counter, 1)
+                }
+                counter++
+            }
+        }
+
         $.ajax({
             method: "DELETE",
             url: `/city/${cityId}`,
@@ -122,9 +146,9 @@ class TempManager {
     async updateCity(cityId) {
         let city = this._findFavById(cityId)
         console.log(city)
-       await $.ajax({
+        await $.ajax({
             method: "PUT",
-            data: {city_id: city.city_id},
+            data: { city_id: city.city_id },
             url: '/city',
             success: (updatedCity) => {
                 let udpdatedCityId = updatedCity.city_id
