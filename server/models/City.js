@@ -7,6 +7,7 @@ weatherSchema = new Schema({
     temperature: Number,
     condition: String,
     conditionPic: String,
+    favourite: Boolean,
     updatedAt: Date
 })
 

@@ -86,10 +86,15 @@ class TempManager {
 
     async getCityData(cityName) {
         const cityForAPI = this._stringforAPI(cityName)
-        let data = await $.get(`/city/${cityForAPI}`)
-        data.temperature = parseInt(data.temperature)
-        this._checkCity(data.city_id) ? null
-            : this.cityData.push(data)
+        let route = `/city/${cityForAPI}`
+        if(route === '/city/'){
+           await $.get('/city')
+        } else {
+            let data = await $.get(route)
+            data.temperature = parseInt(data.temperature)
+            this._checkCity(data.city_id) ? null
+                : this.cityData.push(data)
+        }
     }
 
     removeNotFound(cityId) {
@@ -107,6 +112,7 @@ class TempManager {
 
     saveCity(cityId) {
         let newCity = this._findCityById(cityId)
+        newCity.favourite = true
         this._addToFavourites(newCity)
         console.log(newCity)
         $.post(`/city`, newCity, function (err, res) {

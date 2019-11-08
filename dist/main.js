@@ -5,6 +5,7 @@ const loadPage = async function () {
     await tempManager.getDataFromDB()
     let cities = tempManager.favourites
     render.renderData(cities)
+    $("i").attr("class", "fas fa-heart")
     $(".city").append("<button class=refresh>Refresh</button>")
 }
 
@@ -25,7 +26,6 @@ $("#search").on("click", handleSearch)
 
 $("#cities").on("click", "#liked", function () {
     let cityId = $(this).siblings(".name").data("id")
-    console.log(cityId)
     tempManager.removeCity(cityId)
     let cities = tempManager.cityData
     render.renderData(cities)
@@ -34,30 +34,46 @@ $("#cities").on("click", "#liked", function () {
 
 $("#cities").on("click", ".far", function () {
     let cityId = $(this).siblings(".name").data("id")
-    console.log(cityId)
     tempManager.saveCity(cityId)
     $(this).attr("class", "fas fa-heart")
 })
 
-$("#cities").on("click", ".fas", function () {
+$("#cities").on("click", ".fas", async function () {
     let cityId = $(this).siblings(".name").data("id")
-    console.log(cityId)
     tempManager.removeCity(cityId)
-    let cities = tempManager.favourites
-    render.renderData(cities)
     $(this).attr("class", "far fa-heart")
+    let cities = tempManager.favourites
 })
 
 $("#favs").on("click", async function () {
-    await loadPage()
-    $(".city").find(".far").attr("class","fas fa-heart")
-    $(this).text('Hide favourites')
+    if ($(this).hasClass("unclicked")) {
+       
+        await loadPage()
+        $(this).attr("class","clicked")
+        $(this).text('Hide favourites')
+
+    } else if($(this).hasClass("clicked")){
+        
+        let cities = tempManager.cityData
+        render.renderData(cities)
+        $(this).attr("class","unclicked")
+        $(this).text('Show favourites')
+    }
 })
 
 $("#cities").on("click", ".refresh", async function () {
     let cityId = $(this).siblings(".name").data("id")
     await tempManager.updateCity(cityId)
-    let cities = this.favourites
+    let cities = tempManager.favourites
     render.renderData(cities)
 })
 
+$("body").on("swipeleft", async function(){
+    console.log("swiped left")
+    await loadPage()
+})
+
+$("body").on("swiperight",function(){
+    let cities = tempManager.cityData
+        render.renderData(cities)
+})

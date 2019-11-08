@@ -10,17 +10,16 @@ const City = require('../models/City')
 router.get('/city/:cityName', function (req, res) {
     let city = req.params.cityName || ""
     request(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`, function (err, response) {
-
         let weatherInCity = JSON.parse(response.body)
         let name = weatherInCity.name || weatherInCity.message
         if (name === weatherInCity.message) {
             console.log(name)
-            res.send({
+            return res.send({
                 name: name,
                 city_id: weatherInCity.cod
             })
-            return
         }
+
         let condition = weatherInCity.weather[0].main
         let tempCelsius = weatherInCity.main.temp
         let icon = weatherInCity.weather[0].icon
@@ -32,6 +31,7 @@ router.get('/city/:cityName', function (req, res) {
             temperature: tempCelsius,
             condition: condition,
             conditionPic: `http://openweathermap.org/img/wn/${icon}@2x.png`,
+            favourite: false
         })
 
         console.log(chosenCity)
@@ -44,6 +44,10 @@ router.get('/cities', function (req, res) {
     const cities = City.find({}, function (err, cities) {
         res.send(cities)
     })
+})
+
+router.get('/city', function(req,res){
+    res.end()
 })
 
 router.post('/city', function (req, res) {

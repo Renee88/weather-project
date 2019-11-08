@@ -44,7 +44,7 @@ button{
     background-color: #3D348B;
     padding: 5px;
     height: fit-content;
-    grid-template-columns: 2fr 1fr 1fr 2fr 1fr 1fr;
+    grid-template-columns: 3fr 1fr 1fr 2fr 1fr 1fr;
     align-items: center;
     border-radius: 10px;
     margin: 10px;

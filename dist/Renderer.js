@@ -6,7 +6,6 @@ class Renderer {
         let template = Handlebars.compile(source)
         let allCitiesHTML = template({ cities })
         $("#cities").append(allCitiesHTML)
-
     }
 
 }
