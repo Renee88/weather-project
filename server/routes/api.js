@@ -103,6 +103,7 @@ router.put('/city', function (req, res) {
         
             City.findOneAndUpdate({city_id: city_id },{condition: condition, temperature: tempCelsius, conditionPic: conditionPic},{useFindAndModify: false, new: true}, function (err,city) {
                     console.log(city)
+                    res.send(city)
             })
     })
 })
