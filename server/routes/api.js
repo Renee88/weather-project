@@ -41,7 +41,7 @@ router.get('/city/:cityName', function (req, res) {
 })
 
 router.get('/cities', function (req, res) {
-    const cities = City.find({}, function (err, cities) {
+    City.find({}, function (err, cities) {
         res.send(cities)
     })
 })
@@ -62,7 +62,7 @@ router.post('/city', function (req, res) {
             let condition = req.body.condition
             let tempCelsius = req.body.temperature
             let icon = req.body.conditionPic
-            let fav = !req.body.fav
+            let favourite = req.body.favourite
 
             let newCity = new City({
                 city_id: city_id,
@@ -70,7 +70,7 @@ router.post('/city', function (req, res) {
                 temperature: tempCelsius,
                 condition: condition,
                 conditionPic: icon,
-                fav: true
+                favourite: favourite
             })
 
             newCity.save(function () {

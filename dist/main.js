@@ -3,7 +3,7 @@ const render = new Renderer()
 
 const loadPage = async function () {
     await tempManager.getDataFromDB()
-    let cities = tempManager.favourites
+    let cities = tempManager.cityData
     render.renderData(cities)
     $("i").attr("class", "fas fa-heart")
     $(".city").append("<button class=refresh>Refresh</button>")
@@ -14,12 +14,10 @@ const handleSearch = async function () {
     tempManager.removeNotFound(Id)
     let inputCity = $("input").val()
     await tempManager.getCityData(inputCity)
-    let cities = tempManager.cityData
+    let cities = tempManager.displaySearchCities()
     render.renderData(cities)
     $("#favs").text("Show favourites")
 }
-
-
 
 
 $("#search").on("click", handleSearch)
@@ -42,22 +40,18 @@ $("#cities").on("click", ".fas", async function () {
     let cityId = $(this).siblings(".name").data("id")
     tempManager.removeCity(cityId)
     $(this).attr("class", "far fa-heart")
-    let cities = tempManager.favourites
 })
 
 $("#favs").on("click", async function () {
     if ($(this).hasClass("unclicked")) {
-       
         await loadPage()
-        $(this).attr("class","clicked")
         $(this).text('Hide favourites')
+        $(this).attr("class","clicked")
 
     } else if($(this).hasClass("clicked")){
-        
-        let cities = tempManager.cityData
-        render.renderData(cities)
-        $(this).attr("class","unclicked")
+        $("#cities").empty()
         $(this).text('Show favourites')
+        $(this).attr("class","unclicked")
     }
 })
 

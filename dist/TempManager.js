@@ -1,12 +1,7 @@
 class TempManager {
     constructor() {
-        this.favourites = []
         this.cityData = []
 
-    }
-
-    _addToFavourites(city) {
-        this.favourites.push(city)
     }
 
     _stringforAPI(string) {
@@ -33,9 +28,9 @@ class TempManager {
     }
 
     _checkFavCity(cityId) {
-        let cities = this.favourites
+        let cities = this.cityData
         for (let city of cities) {
-            if (city.city_id === cityId) {
+            if (city.city_id === cityId && city.favourite === true) {
                 return true
             }
         }
@@ -60,35 +55,27 @@ class TempManager {
         }
     }
 
-    _findFavById(cityId) {
-        let cities = this.favourites
-        for (let city of cities) {
-            if (city.city_id === cityId) {
-                return city
-            }
-        }
-    }
-
-
 
     async getDataFromDB() {
         await $.get('/cities', (cities) => {
             for (let city of cities) {
-                let cityId = city.city_id
                 let displayTemp = parseInt(city.temperature)
                 city.temperature = displayTemp
+                let cityId = city.city_id
                 this._checkFavCity(cityId) ? null
-                    : this.favourites.push(city)
+                    : this.cityData.push(city)
             }
 
         })
     }
 
+
+
     async getCityData(cityName) {
         const cityForAPI = this._stringforAPI(cityName)
         let route = `/city/${cityForAPI}`
-        if(route === '/city/'){
-           await $.get('/city')
+        if (route === '/city/') {
+            await $.get('/city')
         } else {
             let data = await $.get(route)
             data.temperature = parseInt(data.temperature)
@@ -113,7 +100,13 @@ class TempManager {
     saveCity(cityId) {
         let newCity = this._findCityById(cityId)
         newCity.favourite = true
-        this._addToFavourites(newCity)
+        let cities = this.cityData
+        let counter = 0
+        for (let city of cities) {
+            if (city.city_id === cityId && city.favourite === false) {
+                splice(counter, 1, newCity)
+            }
+        }
         console.log(newCity)
         $.post(`/city`, newCity, function (err, res) {
             console.log(`${newCity.name} was added to DB`)
@@ -126,7 +119,8 @@ class TempManager {
 
         if (this._checkFavCity(cityId)) {
             let counter = 0
-            let favCities = this.favourites
+            let cities = this.cityData
+            let favCities = cities.filter(c => c.favourite === true)
             for (let city of favCities) {
                 if (city.city_id === cityId) {
                     this.favourites.splice(counter, 1)
@@ -150,16 +144,14 @@ class TempManager {
     }
 
     async updateCity(cityId) {
-        let city = this._findFavById(cityId)
-        console.log(city)
         await $.ajax({
             method: "PUT",
-            data: { city_id: city.city_id },
+            data: { city_id: cityId },
             url: '/city',
             success: (updatedCity) => {
                 let udpdatedCityId = updatedCity.city_id
                 let cityId = this._findCity(udpdatedCityId)
-                let cities = this.favourites
+                let cities = this.cityData
                 let counter = 0
                 for (let city of cities) {
                     if (city.city_id === cityId) {
@@ -172,6 +164,19 @@ class TempManager {
             }
 
         })
+    }
+
+    displaySearchCities() {
+        let notFavs = []
+        let cities = this.cityData
+        for (let city of cities) {
+            if (city.favourite === false) {
+                notFavs.push(city)
+            }
+
+        }
+
+        return notFavs
     }
 }
 

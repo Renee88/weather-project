@@ -24,9 +24,15 @@
 </div>
     <script id = "city-template" type="text/x-handlebars-template">
         {{#each cities}}
-        {{#if name}}
         <div class = "city">
+            {{#if favourite}}
+            <i class="fas fa-heart"></i>
+            {{else}}
+            <i class="far fa-heart"></i>
+            {{/if}}
+
             <div data-id = {{city_id}} class = "name details">{{name}}</div>
+
             {{#if temperature}}
             <div class = "temp details">{{temperature}}&#8451</div>
             {{/if}}
@@ -36,12 +42,7 @@
             {{#if conditionPic}}
             <div class = "icon details"><img src = {{conditionPic}}></div>
             {{/if}}
-            {{#if favourite}}
-            <i class="fas fa-heart"></i>
-            {{else}}
-            <i class="far fa-heart"></i>
-            {{/if}}
-        {{/if}}
+            
             
         </div>
         {{/each}}

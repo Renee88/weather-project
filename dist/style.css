@@ -1,12 +1,12 @@
 body{
-    background-color: #7678ED;
+    background-color: #3D348B;
     margin: 0px;
 }
 button{
     width: fit-content;
     height: fit-content;
     border-radius: 5px;
-    background-color: #3D348B;
+    background-color: #7678ED;
     color: white;
     font-family: 'McLaren', cursive;
     font-weight: bold;
@@ -41,10 +41,10 @@ button{
 
 .city{
     display: grid;
-    background-color: #3D348B;
+    background-color: #7678ED;
     padding: 5px;
     height: fit-content;
-    grid-template-columns: 3fr 1fr 1fr 2fr 1fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr 2fr 1fr 1fr;
     align-items: center;
     border-radius: 10px;
     margin: 10px;
@@ -67,11 +67,29 @@ img{
 }
 
 i{
-    color: #F7B801;
-    font-size: 2em;
+    color: red;
+    font-size: 1em;
 }
 
 #favs{
     display: grid;
     justify-self: center;
+}
+
+.remove{
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    font-family: 'Yeon Sung', cursive;
+    font-size: 20px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: white;
+    background-color: #F35B04;
+}
+
+.refresh{
+    background-color: #F7B801;
 }
