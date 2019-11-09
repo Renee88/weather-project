@@ -63,8 +63,7 @@ class TempManager {
                 let displayTemp = parseInt(city.temperature)
                 city.temperature = displayTemp
                 let cityId = city.city_id
-                this._checkFavCity(cityId) ? null
-                    : favCities.push(city)
+                favCities.push(city)
             }
         })
         return favCities
