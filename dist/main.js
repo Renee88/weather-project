@@ -2,8 +2,8 @@ const tempManager = new TempManager()
 const render = new Renderer()
 
 const loadPage = async function () {
-    await tempManager.getDataFromDB()
-    let cities = tempManager.cityData
+    let cities = await tempManager.getDataFromDB()
+    console.log(cities)
     render.renderData(cities)
     $("i").attr("class", "fas fa-heart")
     $(".city").append("<button class=refresh>Refresh</button>")

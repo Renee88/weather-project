@@ -57,16 +57,17 @@ class TempManager {
 
 
     async getDataFromDB() {
+        let favCities = []
         await $.get('/cities', (cities) => {
             for (let city of cities) {
                 let displayTemp = parseInt(city.temperature)
                 city.temperature = displayTemp
                 let cityId = city.city_id
                 this._checkFavCity(cityId) ? null
-                    : this.cityData.push(city)
+                    : favCities.push(city)
             }
-
         })
+        return favCities
     }
 
 
