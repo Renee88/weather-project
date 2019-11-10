@@ -78,9 +78,11 @@ class TempManager {
             await $.get('/city')
         } else {
             let data = await $.get(route)
+            console.log(data)
             data.temperature = parseInt(data.temperature)
             this._checkCity(data.city_id) ? null
                 : this.cityData.push(data)
+                console.log(this.cityData)
         }
     }
 

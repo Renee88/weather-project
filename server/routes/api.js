@@ -8,7 +8,7 @@ const City = require('../models/City')
 
 
 router.get('/city/:cityName', function (req, res) {
-    let city = req.params.cityName || ""
+    let city = req.params.cityName
     request(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`, function (err, response) {
         let weatherInCity = JSON.parse(response.body)
         let name = weatherInCity.name || weatherInCity.message
@@ -16,7 +16,8 @@ router.get('/city/:cityName', function (req, res) {
             console.log(name)
             return res.send({
                 name: name,
-                city_id: weatherInCity.cod
+                city_id: weatherInCity.cod,
+                favourite: false
             })
         }
 
@@ -24,6 +25,7 @@ router.get('/city/:cityName', function (req, res) {
         let tempCelsius = weatherInCity.main.temp
         let icon = weatherInCity.weather[0].icon
         let id = weatherInCity.id
+
 
         const chosenCity = new City({
             city_id: id,
@@ -91,20 +93,22 @@ router.delete('/city/:cityId', function (req, res) {
 
 router.put('/city', function (req, res) {
     let cityId = req.body.city_id
-    request(`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&units=metric&APPID=${apiKey}`, function (err, response) {
-        let weatherInCity = JSON.parse(response.body)
+    
+    request(`https://api.openweathermap.org/data/2.5/weather?id=${cityId}&mode=xml&units=metric&APPID=${apiKey}`, function (err, response) {
+        
+    parseString(response.body,{trim: true},function(err,city){
+            console.log(city.current.lastupdate)
+            let tempCelsius = city.current.temperature[0]['$'].value
+            let condition = city.current.weather[0]['$'].value
+            let icon = city.current.weather[0]['$'].icon
+            let conditionPic = `http://openweathermap.org/img/wn/${icon}@2x.png`
+            let lastupdated = city.current.lastupdate[0]['$'].value
+                City.findOneAndUpdate({city_id: cityId },{condition: condition, temperature: tempCelsius, conditionPic: conditionPic, updatedAt: lastupdated},{useFindAndModify: false, new: true}, function (err,city) {
+                        console.log(city)
+                        res.send(city)
+                })
+        })
 
-        let city_id = cityId
-        let condition = weatherInCity.weather[0].description
-        let tempCelsius = weatherInCity.main.temp
-        let icon = weatherInCity.weather[0].icon
-        let conditionPic = `http://openweathermap.org/img/wn/${icon}@2x.png`
-        
-        
-            City.findOneAndUpdate({city_id: city_id },{condition: condition, temperature: tempCelsius, conditionPic: conditionPic},{useFindAndModify: false, new: true}, function (err,city) {
-                    console.log(city)
-                    res.send(city)
-            })
     })
 })
 

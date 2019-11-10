@@ -58,16 +58,7 @@ $("#favs").on("click", async function () {
 $("#cities").on("click", ".refresh", async function () {
     let cityId = $(this).siblings(".name").data("id")
     await tempManager.updateCity(cityId)
-    let cities = tempManager.favourites
-    render.renderData(cities)
-})
-
-$("body").on("swipeleft", async function(){
-    console.log("swiped left")
+    let cities = await tempManager.getDataFromDB()
+    console.log(cities)
     await loadPage()
-})
-
-$("body").on("swiperight",function(){
-    let cities = tempManager.cityData
-        render.renderData(cities)
 })
